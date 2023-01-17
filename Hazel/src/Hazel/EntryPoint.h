@@ -2,14 +2,18 @@
 
 #ifdef HZ_PLATFORM_WINDOWS
 
-extern Hazel::Application* Hazel::CreateApplication();
+	extern Hazel::Application* Hazel::CreateApplication();
 
-int main(int argc, char** argv) {
-	printf("Hazel Engine\n");
-	auto app = Hazel::CreateApplication();
-	app->Run();
-	delete app;
-}
-#else
+	int main(int argc, char** argv) {
+
+		Hazel::Log::Init();
+		HZ_CORE_WARN("Initlized Log");
+		HZ_ClIENT_INFO("Hello");
+
+		auto app = Hazel::CreateApplication();
+		app->Run();
+		delete app;
+	}
+	#else
 #error Hazel only support Windows!
 #endif

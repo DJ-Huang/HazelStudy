@@ -8,7 +8,7 @@ namespace Hazel {
 	{
 	public:
 		Application();
-		virtual ~Application();
+		virtual ~Application(); // call inherited
 		void Run();
 	};
 
