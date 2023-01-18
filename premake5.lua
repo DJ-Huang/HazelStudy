@@ -1,98 +1,105 @@
 workspace "Hazel"
-    architecture "x64"
+	architecture "x64"
 
-    configuration{
-        "Debug",
-        "Release",
-        "Dist"
-    }
+	configurations
+	{
+		"Debug",
+		"Release",
+		"Dist"
+	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "Hazel"
-    location "Hazel"
-    kind "SharedLib"
-    language "C++"
+	location "Hazel"
+	kind "SharedLib"
+	language "C++"
 
-    targetDir ("bin/" .. outputdir .. "/%{prj.name}")
-    objDir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    files{
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp",
-    }
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
 
-    include{
-        "%{prj.name}/vendor/spdlog/include"
-    }
+	includedirs
+	{
+		"%{prj.name}/vendor/spdlog/include"
+	}
 
-    filter "sysstem:windows"
-        cppdialect "C++17"
-        staticruntime "On"
-        systemversion "10.0.20348.0"
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "10.0.20348.0"
 
-        defines {
-            "HZ_PLATFORM_WINDOWS",
-            "HZ_Build_DLL",
-            "_WINDLL"
-        }
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS",
+			"HZ_BUILD_DLL"
+		}
 
-        postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox") --复制hazel.dll 到sandbox目录中
-        }
+		postbuildcommands
+		{
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+		}
 
-    filter "configurations:Debug"
-        defines "HZ_DEBUG"
-        symbols "On"
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		symbols "On"
 
-    filter "configurations:Release"
-        defines "HZ_RELEASE"
-        optimize "On"
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		optimize "On"
 
-    filter "configurations:Dist"
-        defines "HZ_DIST"
-        optimize "On"
+	filter "configurations:Dist"
+		defines "HZ_DIST"
+		optimize "On"
 
-        
 project "Sandbox"
-    location "Sandbox"
-    kind "ConsoleApp"
-    language "C++"
+	location "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
 
-    targetDir ("bin/" .. outputdir .. "/%{prj.name}")
-    objDir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    files{
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp",
-    }
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
 
-    include{
-        "%{prj.name}/vendor/spdlog/include"
-        "Hazel/src"
-    }
+	includedirs
+	{
+		"Hazel/vendor/spdlog/include",
+		"Hazel/src"
+	}
 
-    links{
-        "Hazel"
-    }
+	links
+	{
+		"Hazel"
+	}
 
-    filter "sysstem:windows"
-        cppdialect "C++17"
-        staticruntime "On"
-        systemversion "10.0.20348.0"
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "10.0.20348.0"
 
-        defines {
-            "HZ_PLATFORM_WINDOWS"
-        }
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS"
+		}
 
-    filter "configurations:Debug"
-        defines "HZ_DEBUG"
-        symbols "On"
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		symbols "On"
 
-    filter "configurations:Release"
-        defines "HZ_RELEASE"
-        optimize "On"
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		optimize "On"
 
-    filter "configurations:Dist"
-        defines "HZ_DIST"
-        optimize "On"
+	filter "configurations:Dist"
+		defines "HZ_DIST"
+		optimize "On"
