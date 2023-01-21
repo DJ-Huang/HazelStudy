@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "Events/Event.h"
 
 namespace Hazel {
 
@@ -8,13 +9,13 @@ namespace Hazel {
 	{
 	public:
 		Application();
-		virtual ~Application(); // call inherited
+		virtual ~Application();
+
 		void Run();
+		void OnEvent(Event& e);
 	};
 
-	// To be define in CLIENT
+	// To be defined in CLIENT
 	Application* CreateApplication();
 
 }
-
-
