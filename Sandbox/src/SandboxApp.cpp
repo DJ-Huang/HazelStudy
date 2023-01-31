@@ -1,20 +1,41 @@
 #include <Hazel.h>
 
-class Sandbox : public Hazel::Application
+class ExampleLayer : public Hazel::Layer
 {
 public:
-	Sandbox() {
-
+	ExampleLayer()
+		: Layer("Example")
+	{
 	}
 
-	~Sandbox() {
-
+	void OnUpdate() override
+	{
+		HZ_INFO("ExampleLayer::Update");
 	}
 
-private:
+	void OnEvent(Hazel::Event& event) override
+	{
+		HZ_TRACE("{0}", event);
+	}
 
 };
 
-Hazel::Application* Hazel::CreateApplication() {
+class Sandbox : public Hazel::Application
+{
+public:
+	Sandbox()
+	{
+		PushLayer(new ExampleLayer());
+	}
+
+	~Sandbox()
+	{
+
+	}
+
+};
+
+Hazel::Application* Hazel::CreateApplication()
+{
 	return new Sandbox();
 }
